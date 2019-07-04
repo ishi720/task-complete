@@ -46,3 +46,39 @@ _composer() {
     unset findFile
 }
 complete -F _composer composer
+
+_yarn() {
+    fileSerachClimb 'package.json'
+    if [ -f ${findFile} ]; then
+        case "$3" in
+            yarn)
+                local cur prev opts
+                _get_comp_words_by_ref -n : cur prev
+                opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' | sed s/\"//g | sed s/,/" "/g`
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") );;
+            run)
+                local cur prev opts
+                _get_comp_words_by_ref -n : cur prev
+                opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' | sed s/\"//g | sed s/,/" "/g`
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") );;
+        esac
+    fi
+    unset findFile
+}
+complete -F _yarn yarn
+
+
+_npm() {
+    fileSerachClimb 'package.json'
+    if [ -f ${findFile} ]; then
+        case "$3" in
+            run-scripts)
+                local cur prev opts
+                _get_comp_words_by_ref -n : cur prev
+                opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' | sed s/\"//g | sed s/,/" "/g`
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") );;
+        esac
+    fi
+    unset findFile
+}
+complete -F _npm npm
