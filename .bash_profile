@@ -38,10 +38,13 @@ function fileSerachClimb(){
 _composer() {
     fileSerachClimb 'composer.json'
     if [ -f ${findFile} ]; then
-        local cur prev opts
-        _get_comp_words_by_ref -n : cur prev
-        opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' | sed s/\"//g | sed s/,/" "/g`
-        COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+        case "$3" in
+            composer)
+                local cur prev opts
+                _get_comp_words_by_ref -n : cur prev
+                opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' | sed s/\"//g | sed s/,/" "/g`
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+        esac
     fi
     unset findFile
 }
@@ -66,7 +69,6 @@ _yarn() {
     unset findFile
 }
 complete -F _yarn yarn
-
 
 _npm() {
     fileSerachClimb 'package.json'
