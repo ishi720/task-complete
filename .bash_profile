@@ -37,7 +37,7 @@ function fileSerachClimb(){
 
 _composer() {
     fileSerachClimb 'composer.json'
-    if [ -f ${findFile} ]; then
+    if [ ! ${findFile} == '' ]; then
         case "$3" in
             composer)
                 local cur prev opts
@@ -52,7 +52,7 @@ complete -F _composer composer
 
 _yarn() {
     fileSerachClimb 'package.json'
-    if [ -f ${findFile} ]; then
+    if [ ! ${findFile} == '' ]; then
         case "$3" in
             yarn)
                 local cur prev opts
@@ -72,7 +72,7 @@ complete -F _yarn yarn
 
 _npm() {
     fileSerachClimb 'package.json'
-    if [ -f ${findFile} ]; then
+    if [ ! ${findFile} == '' ]; then
         case "$3" in
             run-scripts)
                 local cur prev opts
