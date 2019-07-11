@@ -74,7 +74,12 @@ _npm() {
     fileSerachClimb 'package.json'
     if [ ! ${findFile} == '' ]; then
         case "$3" in
-            run-scripts)
+            run)
+                local cur prev opts
+                _get_comp_words_by_ref -n : cur prev
+                opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' | sed s/\"//g | sed s/,/" "/g`
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") );;
+            run-script)
                 local cur prev opts
                 _get_comp_words_by_ref -n : cur prev
                 opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' | sed s/\"//g | sed s/,/" "/g`
@@ -84,3 +89,26 @@ _npm() {
     unset findFile
 }
 complete -F _npm npm
+
+_pipenv() {
+    fileSerachClimb 'Pipfile'
+    if [ ! ${findFile} == '' ]; then
+        case "$3" in
+            run)
+                local cur prev opts
+                _get_comp_words_by_ref -n : cur prev
+                opts=`sed -e 's/[[:space:]]*\=[[:space:]]*/=/g' \
+                        -e 's/;.*$//' \
+                        -e 's/[[:space:]]*$//' \
+                        -e 's/^[[:space:]]*//' \
+                        -e "s/^\(.*\)=\([^\"']*\)$/\1=\"\2\"/" \
+                        < ${findFile} \
+                        | sed -n -e "/^\[scripts\]/,/^\s*\[/{/^[^;].*\=.*/p;}" \
+                        | sed -e "s/\=.*$//g" \
+                        | sed -e "s/ +/ /g"`
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}" ) );;
+        esac
+    fi
+    unset findFile
+}
+complete -F _pipenv pipenv
