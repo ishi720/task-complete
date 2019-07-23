@@ -42,7 +42,7 @@ _composer() {
             composer)
                 local cur prev opts
                 _get_comp_words_by_ref -n : cur prev
-                opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' | sed s/\"//g | sed s/,/" "/g`
+                opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' 2>/dev/null | sed s/\"//g | sed s/,/" "/g`
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
         esac
     fi
@@ -57,12 +57,12 @@ _yarn() {
             yarn)
                 local cur prev opts
                 _get_comp_words_by_ref -n : cur prev
-                opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' | sed s/\"//g | sed s/,/" "/g`
+                opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' 2>/dev/null | sed s/\"//g | sed s/,/" "/g`
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") );;
             run)
                 local cur prev opts
                 _get_comp_words_by_ref -n : cur prev
-                opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' | sed s/\"//g | sed s/,/" "/g`
+                opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' 2>/dev/null | sed s/\"//g | sed s/,/" "/g`
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") );;
         esac
     fi
@@ -77,12 +77,12 @@ _npm() {
             run)
                 local cur prev opts
                 _get_comp_words_by_ref -n : cur prev
-                opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' | sed s/\"//g | sed s/,/" "/g`
+                opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' 2>/dev/null | sed s/\"//g | sed s/,/" "/g`
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") );;
             run-script)
                 local cur prev opts
                 _get_comp_words_by_ref -n : cur prev
-                opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' | sed s/\"//g | sed s/,/" "/g`
+                opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' 2>/dev/null | sed s/\"//g | sed s/,/" "/g`
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") );;
         esac
     fi
