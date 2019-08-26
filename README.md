@@ -53,4 +53,4 @@ package.jsonより下位のディレクトリで
 |yarn|package.json|scripts|yarn run \<tab\><br>yarn \<tab\>|
 |composer|composer.json|scripts|composer \<tab\>|
 |pipenv|Pipfile|scripts|pipenv run \<tab\>|
-|gulp|gulpfile.js|gulpで登録しているタスク|gulp run \<tab\><br>yarn gulp run \<tab\><br>npm run \<tab\>|
+|gulp|gulpfile.js|gulpで登録しているタスク|gulp run \<tab\><br>yarn gulp\<tab\><br>npm run gulp \<tab\>|
