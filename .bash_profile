@@ -35,6 +35,24 @@ function fileSerachClimb(){
     return 0
 }
 
+# gulpなどコマンドの結果が遅い場合、タスクを保存して高速化する
+# Examples:
+#   setTask gulp
+# Args:
+#   $1 - タブ補完したいコマンド
+setTask(){
+    if [[ "$1" == "gulp" ]]; then
+        TASKS=`yarn -s gulp --tasks-json`
+        gulpTasks=`echo ${TASKS} | jq -rc '[.nodes[] | [.label]] | add | @csv' | sed s/\"//g | sed s/,/" "/g`
+
+        echo $gulpTasks
+        echo "complete!!"
+
+        unset TASKS
+    fi
+}
+alias setTask=setTask
+
 _composer() {
     fileSerachClimb 'composer.json'
     if [ ! ${findFile} == '' ]; then
@@ -64,6 +82,13 @@ _yarn() {
                 _get_comp_words_by_ref -n : cur prev
                 opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' 2>/dev/null | sed s/\"//g | sed s/,/" "/g`
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") );;
+            gulp)
+                if [  -n "$gulpTasks" ]; then
+                    local cur prev opts
+                    _get_comp_words_by_ref -n : cur prev
+
+                    COMPREPLY=( $(compgen -W "${gulpTasks}" -- "${cur}") )
+                fi
         esac
     fi
     unset findFile
@@ -84,6 +109,13 @@ _npm() {
                 _get_comp_words_by_ref -n : cur prev
                 opts=`cat "${findFile}" | jq -rc '.scripts | keys | @csv' 2>/dev/null | sed s/\"//g | sed s/,/" "/g`
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") );;
+            gulp)
+                if [  -n "$gulpTasks" ]; then
+                    local cur prev opts
+                    _get_comp_words_by_ref -n : cur prev
+
+                    COMPREPLY=( $(compgen -W "${gulpTasks}" -- "${cur}") )
+                fi
         esac
     fi
     unset findFile
@@ -112,3 +144,14 @@ _pipenv() {
     unset findFile
 }
 complete -F _pipenv pipenv
+
+# 事前に $ setTask gulp を実行しておく必要があり
+_gulp() {
+    if [  -n "$gulpTasks" ]; then
+        local cur prev opts
+        _get_comp_words_by_ref -n : cur prev
+
+        COMPREPLY=( $(compgen -W "${gulpTasks}" -- "${cur}") )
+    fi
+}
+complete -F _gulp gulp
