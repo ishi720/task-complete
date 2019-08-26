@@ -47,10 +47,10 @@ package.jsonより下位のディレクトリで
 
 ## サポート範囲
 
-|コマンド|チェックするファイル|補完対象|補完位置|
-|:-|:-|:-|:-|
-|npm|package.json|scripts|npm run-script \<tab\><br>npm run \<tab\>|
-|yarn|package.json|scripts|yarn run \<tab\><br>yarn \<tab\>|
-|composer|composer.json|scripts|composer \<tab\>|
-|pipenv|Pipfile|scripts|pipenv run \<tab\>|
-|gulp|gulpfile.js|gulpで登録しているタスク|gulp run \<tab\><br>yarn gulp\<tab\><br>npm run gulp \<tab\>|
+|コマンド|チェックするファイル|事前コマンド|補完対象|補完位置|
+|:-|:-|:-|:-|:-|
+|npm|package.json||scripts|npm run-script \<tab\><br>npm run \<tab\>|
+|yarn|package.json||scripts|yarn run \<tab\><br>yarn \<tab\>|
+|composer|composer.json||scripts|composer \<tab\>||
+|pipenv|Pipfile||scripts|pipenv run \<tab\>|
+|gulp|gulpfile.js|$ setTask gulp|gulpで登録しているタスク|gulp run \<tab\><br>yarn gulp\<tab\><br>npm run gulp \<tab\>|
